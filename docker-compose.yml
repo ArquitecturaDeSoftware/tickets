@@ -1,0 +1,19 @@
+version: "2.1"
+services:
+  tickets-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: restapi
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123
+    ports:
+      - "3306:3306"
+  tickets:
+    build: .
+    ports:
+      - "4200:4200"
+    depends_on:
+      - tickets-db
+
+  
