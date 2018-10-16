@@ -1,0 +1,261 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Tickets
+  description: Java + Spring + MySQL
+  license:
+    name: TurnApp
+host: 192.168.99.101:4200
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /tickets:
+    get:
+      summary: Get all tickets
+      operationId: findAllTickets
+      description: get all tickets
+      responses:
+        '200':
+          description: successfull
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /ticket:
+    post:
+      summary: Creates a new Ticket
+      operationId: createTicket
+      parameters:
+        - name: newTicket
+          in: body
+          required: true
+          description: body request
+          schema:
+            $ref: '#/definitions/newTicket'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    put:
+      summary: Updates the state of a ticket with the given id
+      description: There are 4 state, ERROR, WAITING, FINISHED and CALLING
+      operationId: updateTicketStatus
+      parameters:
+        - name: status
+          in: body
+          required: true
+          description: ticket status
+          schema:
+            $ref: '#/definitions/updateTicket'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /ticket/user/{id}:
+    get:
+      summary: Returns a ticket from given user
+      operationId: getTicketByUser
+      parameters:
+        - name: id
+          in: path
+          description: The user id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Ticket'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /ticket/restaurant/{id}:
+    get:
+      summary: Returns a list of ticket from given restaurant
+      operationId: getTicketsByRestaurant
+      parameters:
+        - name: id
+          in: path
+          description: The restaurant id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Ticket'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /ticket/{id}:
+    get:
+      summary: Returns a ticket from given ticket id
+      operationId: getTicketsById
+      parameters:
+        - name: id
+          in: path
+          description: The ticket id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Ticket'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    delete:
+      summary: Deletes a ticket with the given id
+      operationId: deleteTicket
+      parameters:
+        - name: id
+          in: path
+          description: The id of the ticket to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /nextticket/{id}:
+    get:
+      summary: Returns the next ticket from given restaurant 
+      operationId: getNextTicketByRestaurant
+      parameters:
+        - name: id
+          in: path
+          description: The restaurant id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Ticket'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+definitions:
+
+  Ticket:
+    type: object
+    properties:
+      id:
+        type: integer
+      status:
+        type: string
+      price:
+        type: number
+      restaurant:
+        type: integer
+      user: 
+        type: integer
+      date:
+        type: number
+        
+  newTicket:
+    type: object
+    properties:
+      price:
+        type: integer
+      restaurant:
+        type: integer
+      user:
+        type: integer
+        
+  updateTicket:
+    type: object
+    properties:
+      status:
+        type: string
+      id:
+        type: integer
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
