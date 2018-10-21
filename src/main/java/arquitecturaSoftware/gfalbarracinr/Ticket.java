@@ -7,21 +7,21 @@ public class Ticket {
 
     public Ticket(){ }
 
-    public Ticket(String status, double price, Date date, int restaurant, int userid) {
+    public Ticket(String status, double price, String date, String lunchroomId, int userid) {
         this.status = status;
         this.price = price;
         this.date = date;
         this.userid = userid;
-        this.idrestaurant = restaurant;
+        this.lunchroomId = lunchroomId;
     }
 
-    public Ticket(int id, String status, double price, Date date,
-                  int restaurant, int userId) {
+    public Ticket(int id, String status, double price, String date,
+                  String lunchroomId, int userId) {
         this.id = id;
         this.status = status;
         this.price = price;
         this.date = date;
-        this.idrestaurant = restaurant;
+        this.lunchroomId = lunchroomId;
         this.userid = userId;
     }
 
@@ -37,12 +37,12 @@ public class Ticket {
         return price;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public int getIdrestaurant(){
-        return idrestaurant;
+    public String getLunchroomId(){
+        return lunchroomId;
     }
     public int getUserid(){
         return userid;
@@ -57,7 +57,7 @@ public class Ticket {
                 "id=" + id +
                 ", status=" + status +
                 ", price=" + price +
-                ", date=" + date.toString() +
+                ", date=" + date +
                 '}';
     }
 
@@ -65,11 +65,11 @@ public class Ticket {
     @Column(name="idticket", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private int idrestaurant;
+    private String lunchroomId;
     private int userid;
     private String status;
     private double price;
-    private Date date;
+    private String date;
 
 
 }
