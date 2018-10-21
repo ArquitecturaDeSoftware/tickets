@@ -53,7 +53,7 @@ public class TicketController {
     public Ticket create(@RequestBody Map<String, String> body){
         double price = Double.parseDouble(body.get("price"));
         String lunchroomId = body.get("lunchroomId");
-        int userId = Integer.parseInt(body.get("user"));
+        int userId = Integer.parseInt(body.get("userId"));
         Ticket newTicket = new Ticket(TicketStatus.WAITING.toString(), price,
                 new Date().toString(), lunchroomId, userId);
         return ticketRepository.save(newTicket);
