@@ -15,5 +15,8 @@ services:
       - "4200:4200"
     depends_on:
       - tickets-db
+    environment:
+      MYSQL_URL: jdbc:mysql://tickets-db:3306/restapi
+    
 
   
