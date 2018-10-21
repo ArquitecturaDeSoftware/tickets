@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
-RUN apt-get install maven
+FROM maven
 RUN mvn -f pom.xml package
 VOLUME /tmp
 ADD target/tickets.jar target/tickets.jar
