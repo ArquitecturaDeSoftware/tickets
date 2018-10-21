@@ -1,2 +1,6 @@
 target/*
+!target/tickets.jar
 .idea/*
+.classpath
+.project
+.settings
