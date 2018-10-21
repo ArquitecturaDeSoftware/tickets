@@ -25,10 +25,9 @@ public class TicketController {
 
     }
 
-    @GetMapping("/ticket/restaurant/{id}")
+    @GetMapping("/ticket/lunchroom/{id}")
     public List<Ticket> getTicketsByRestaurant(@PathVariable String id){
-        int restaurant = Integer.parseInt(id);
-        return ticketRepository.findAllByIdrestaurant(restaurant);
+        return ticketRepository.findAllByIdrestaurant(id);
     }
     @GetMapping("/ticket/{id}")
     public Ticket search(@PathVariable String id){
@@ -38,10 +37,9 @@ public class TicketController {
 
     @GetMapping("/nextticket/{id}")
     public Ticket getNextTicket(@PathVariable String id){
-        int restaurant = Integer.parseInt(id);
         List<Ticket> tickets = ticketRepository
                 .findByStatusAndIdrestaurant(
-                        TicketStatus.WAITING.toString(), restaurant);
+                        TicketStatus.WAITING.toString(), id);
         if (tickets.size() > 0){
             return tickets.get(0);
         } else{
@@ -52,10 +50,10 @@ public class TicketController {
     @PostMapping("/ticket")
     public Ticket create(@RequestBody Map<String, String> body){
         double price = Double.parseDouble(body.get("price"));
-        int restaurant = Integer.parseInt(body.get("restaurant"));
+        String lunchroom = body.get("lunchroom");
         int userId = Integer.parseInt(body.get("user"));
         Ticket newTicket = new Ticket(TicketStatus.WAITING.toString(), price,
-                new Date(), restaurant, userId);
+                new Date(), lunchroom, userId);
         return ticketRepository.save(newTicket);
 
     }
