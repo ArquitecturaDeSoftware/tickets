@@ -18,18 +18,19 @@ public class TicketController {
         return tickets;
     }
 
-    @GetMapping("/ticket/user/{id}")
-    public List<Ticket> getTicketByuser(@PathVariable String id){
+    @GetMapping("/tickets/user/{id}")
+    public List<Ticket> getTicketByUser(@PathVariable String id){
         int idToFind = Integer.parseInt(id);
         return ticketRepository.findByUserid(idToFind);
 
     }
 
-    @GetMapping("/ticket/lunchroom/{id}")
-    public List<Ticket> getTicketsByRestaurant(@PathVariable String id){
-        return ticketRepository.findAllByIdrestaurant(id);
+    @GetMapping("/tickets/lunchroom/{id}")
+    public List<Ticket> getTicketsByLunchroom(@PathVariable String id){
+        String lunchroomId = id;
+        return ticketRepository.findAllByLunchroomId(lunchroomId);
     }
-    @GetMapping("/ticket/{id}")
+    @GetMapping("/tickets/{id}")
     public Ticket search(@PathVariable String id){
         int ticketId = Integer.parseInt(id);
         return ticketRepository.findOne(ticketId);
@@ -37,9 +38,10 @@ public class TicketController {
 
     @GetMapping("/nextticket/{id}")
     public Ticket getNextTicket(@PathVariable String id){
+        String lunchroomId = id;
         List<Ticket> tickets = ticketRepository
-                .findByStatusAndIdrestaurant(
-                        TicketStatus.WAITING.toString(), id);
+                .findByStatusAndLunchroomId(
+                        TicketStatus.WAITING.toString(), lunchroomId);
         if (tickets.size() > 0){
             return tickets.get(0);
         } else{
@@ -47,18 +49,18 @@ public class TicketController {
         }
     }
 
-    @PostMapping("/ticket")
+    @PostMapping("/tickets")
     public Ticket create(@RequestBody Map<String, String> body){
         double price = Double.parseDouble(body.get("price"));
-        String lunchroom = body.get("lunchroom");
+        String lunchroomId = body.get("lunchroomId");
         int userId = Integer.parseInt(body.get("user"));
         Ticket newTicket = new Ticket(TicketStatus.WAITING.toString(), price,
-                new Date(), lunchroom, userId);
+                new Date().toString(), lunchroomId, userId);
         return ticketRepository.save(newTicket);
 
     }
 
-    @PutMapping("/ticket")
+    @PutMapping("/tickets")
     public Ticket changeStatus(@RequestBody Map<String, String> body){
         int id = Integer.parseInt(body.get("id"));
         Ticket ticket = ticketRepository.findOne(id);
@@ -67,7 +69,7 @@ public class TicketController {
         return ticketRepository.save(ticket);
     }
 
-    @DeleteMapping("/ticket/{id}")
+    @DeleteMapping("/tickets/{id}")
     public boolean deleteTicket(@PathVariable String id ){
         int ticketId = Integer.parseInt(id);
         ticketRepository.delete(ticketId);

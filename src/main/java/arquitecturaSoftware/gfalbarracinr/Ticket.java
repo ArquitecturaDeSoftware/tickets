@@ -1,7 +1,7 @@
 package arquitecturaSoftware.gfalbarracinr;
 
 import javax.persistence.*;
-import java.util.Date;
+
 @Entity
 public class Ticket {
 
