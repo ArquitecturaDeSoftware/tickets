@@ -60,10 +60,10 @@ public class TicketController {
 
     }
 
-    @PutMapping("/tickets")
-    public Ticket changeStatus(@RequestBody Map<String, String> body){
-        int id = Integer.parseInt(body.get("id"));
-        Ticket ticket = ticketRepository.findOne(id);
+    @PutMapping("/tickets/{id}")
+    public Ticket changeStatus(@PathVariable String id, @RequestBody Map<String, String> body){
+        int idTicket = Integer.parseInt(id);
+        Ticket ticket = ticketRepository.findOne(idTicket);
         String status = TicketStatus.getStatus(body.get("status"));
         ticket.changeStatus(status);
         return ticketRepository.save(ticket);
