@@ -4,7 +4,8 @@ public enum TicketStatus {
     CALLING(1),
     WAITING(2),
     FINISHED(3),
-    ERROR(4);
+    CANCELLED(4),
+    ERROR(5);
 
   TicketStatus(int id){
     this.id = id;
@@ -18,6 +19,8 @@ public enum TicketStatus {
                 return TicketStatus.WAITING.toString();
             case "FINISHED":
                 return TicketStatus.FINISHED.toString();
+            case "CANCELLED":
+                return TicketStatus.CANCELLED.toString();
             default:
                 return TicketStatus.ERROR.toString();
         }

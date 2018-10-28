@@ -7,12 +7,14 @@ public class Ticket {
 
     public Ticket(){ }
 
-    public Ticket(String status, double price, String date, String lunchroomId, int userid) {
+    public Ticket(String status, double price, String date, String lunchroomId, int userid, String name) {
         this.status = status;
         this.price = price;
         this.date = date;
         this.userid = userid;
         this.lunchroomId = lunchroomId;
+        this.name = name;
+
     }
 
     public Ticket(int id, String status, double price, String date,
@@ -47,6 +49,9 @@ public class Ticket {
     public int getUserid(){
         return userid;
     }
+    public String getName(){
+        return name;
+    }
     public void changeStatus (String newStatus){
         this.status = newStatus;
     }
@@ -55,6 +60,7 @@ public class Ticket {
     public String toString() {
         return "EnableTicket{" +
                 "id=" + id +
+                ", name=" + name +
                 ", status=" + status +
                 ", price=" + price +
                 ", date=" + date +
@@ -70,6 +76,7 @@ public class Ticket {
     private String status;
     private double price;
     private String date;
+    private String name;
 
 
 }

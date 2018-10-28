@@ -39,11 +39,17 @@ public class TicketController {
     @GetMapping("/nextticket/{id}")
     public Ticket getNextTicket(@PathVariable String id){
         String lunchroomId = id;
-        List<Ticket> tickets = ticketRepository
+        List<Ticket> ticketsCalling = ticketRepository
+                .findByStatusAndLunchroomId(
+                        TicketStatus.CALLING.toString(), lunchroomId);
+        List<Ticket> ticketsWaiting = ticketRepository
                 .findByStatusAndLunchroomId(
                         TicketStatus.WAITING.toString(), lunchroomId);
-        if (tickets.size() > 0){
-            return tickets.get(0);
+        
+        if (ticketsCalling.size() > 0){
+            return ticketsCalling.get(0);
+        } else if (ticketsWaiting.size() > 0){
+            return ticketsWaiting.get(0);
         } else{
             return NullTicket.getInstance();
         }
@@ -54,8 +60,9 @@ public class TicketController {
         double price = Double.parseDouble(body.get("price"));
         String lunchroomId = body.get("lunchroomId");
         int userId = Integer.parseInt(body.get("userId"));
+        String name = body.get("name");
         Ticket newTicket = new Ticket(TicketStatus.WAITING.toString(), price,
-                new Date().toString(), lunchroomId, userId);
+                new Date().toString(), lunchroomId, userId, name);
         return ticketRepository.save(newTicket);
 
     }
