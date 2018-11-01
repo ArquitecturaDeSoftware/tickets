@@ -55,7 +55,7 @@ public class TicketController {
         }
     }
 
-    @GetMapping("/ticket/all/{id}")
+    @GetMapping("/tickets/before/{id}")
     public List<Ticket> getTicketsBeforeMe(@PathVariable String id){
         int ticketId = Integer.parseInt(id);
         Ticket ticket = ticketRepository.findOne(ticketId);
