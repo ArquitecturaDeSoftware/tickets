@@ -55,6 +55,15 @@ public class TicketController {
         }
     }
 
+    @GetMapping("/ticket/all/{id}")
+    public List<Ticket> getTicketsBeforeMe(@PathVariable String id){
+        int ticketId = Integer.parseInt(id);
+        Ticket ticket = ticketRepository.findOne(ticketId);
+        List<Ticket> ticketsBeforeMe = ticketRepository.findTicketsBeforeMeByStatusAndLunchroomId(
+                        ticketId, TicketStatus.WAITING.toString(), ticket.getLunchroomId());
+       
+       return ticketsBeforeMe;
+    }
     @PostMapping("/tickets")
     public Ticket create(@RequestBody Map<String, String> body){
         double price = Double.parseDouble(body.get("price"));
