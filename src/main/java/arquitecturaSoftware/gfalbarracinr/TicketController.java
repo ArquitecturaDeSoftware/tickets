@@ -62,7 +62,12 @@ public class TicketController {
         List<Ticket> ticketsBeforeMe = ticketRepository.findTicketsBeforeMeByStatusAndLunchroomId(
                         ticketId, TicketStatus.WAITING.toString(), ticket.getLunchroomId());
        
-       return ticketsBeforeMe;
+        if(ticketsBeforeMe != null && !ticketsBeforeMe.isEmpty())
+            return ticketsBeforeMe;
+        else
+            return ticketRepository.findByStatusAndLunchroomId(TicketStatus.WAITING.toString(), ticket.getLunchroomId());
+
+
     }
     @PostMapping("/tickets")
     public Ticket create(@RequestBody Map<String, String> body){
