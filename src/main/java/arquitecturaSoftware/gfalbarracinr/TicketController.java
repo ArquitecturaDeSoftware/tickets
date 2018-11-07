@@ -28,7 +28,7 @@ public class TicketController {
     @GetMapping("/tickets/lunchroom/{id}")
     public List<Ticket> getTicketsByLunchroom(@PathVariable String id){
         String lunchroomId = id;
-        return ticketRepository.findAllByLunchroomId(lunchroomId);
+        return ticketRepository.findByStatusAndLunchroomId(TicketStatus.WAITING.toString(),lunchroomId);
     }
     @GetMapping("/tickets/{id}")
     public Ticket search(@PathVariable String id){
